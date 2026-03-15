@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spot Check Observation Form – Training Manager Evaluation</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f4f5f7; color: #1a1a2e; min-height: 100vh; padding: 2rem 1rem 4rem; }
+  .form-wrap { max-width: 760px; margin: 0 auto; }
+  .form-header { text-align: center; padding: 2.5rem 2rem 2rem; border-radius: 14px; background: #fff; border: 1px solid #e4e6ea; margin-bottom: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+  .badge { display: inline-block; background: #e8f1fb; color: #185FA5; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 999px; margin-bottom: 14px; letter-spacing: .06em; text-transform: uppercase; }
+  .form-header h1 { font-size: 24px; font-weight: 600; color: #111; margin-bottom: 8px; }
+  .form-header p { font-size: 14px; color: #666; }
+  .section { background: #fff; border: 1px solid #e4e6ea; border-radius: 14px; padding: 1.5rem 1.75rem; margin-bottom: 1.1rem; box-shadow: 0 1px 6px rgba(0,0,0,.04); }
+  .section-title { display: flex; align-items: center; gap: 12px; margin-bottom: 1.4rem; padding-bottom: 1rem; border-bottom: 1px solid #f0f0f0; }
+  .section-num { width: 30px; height: 30px; border-radius: 50%; background: #f0f4ff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #185FA5; flex-shrink: 0; }
+  .section-title h2 { font-size: 16px; font-weight: 600; color: #111; }
+  .field { margin-bottom: 1.2rem; }
+  .field:last-child { margin-bottom: 0; }
+  .field label { display: block; font-size: 13px; font-weight: 500; color: #444; margin-bottom: 7px; }
+  .req { color: #e24b4a; margin-left: 2px; }
+  input[type=text], input[type=number], input[type=date], input[type=time], select, textarea {
+    width: 100%; padding: 9px 13px; border: 1px solid #dde1e7; border-radius: 8px;
+    font-size: 14px; font-family: inherit; background: #fafbfc; color: #111;
+    outline: none; transition: border-color .15s, box-shadow .15s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: #378ADD; box-shadow: 0 0 0 3px rgba(55,138,221,.12); background: #fff; }
+  textarea { resize: vertical; min-height: 85px; line-height: 1.6; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media(max-width:520px){ .two-col { grid-template-columns: 1fr; } }
+  .radio-group { display: flex; flex-direction: column; gap: 7px; }
+  .radio-opt { display: flex; align-items: center; gap: 10px; padding: 9px 13px; border: 1px solid #e4e6ea; border-radius: 8px; cursor: pointer; transition: background .12s, border-color .12s; user-select: none; }
+  .radio-opt:hover { background: #f5f8ff; border-color: #b5d4f4; }
+  .radio-opt input { accent-color: #378ADD; width: 16px; height: 16px; cursor: pointer; flex-shrink: 0; }
+  .radio-opt span { font-size: 14px; color: #222; }
+  .radio-opt.selected { background: #e8f1fb; border-color: #85b7eb; }
+  .radio-opt.selected span { color: #185FA5; font-weight: 500; }
+  .conditional { display: none; margin-top: 12px; padding: 14px; background: #f8f9fc; border-radius: 10px; border: 1px solid #eaedf2; }
+  .conditional.show { display: block; }
+  .divider { height: 1px; background: #f0f0f0; margin: 1.1rem 0; }
+  .upload-area { border: 2px dashed #c8d3e0; border-radius: 10px; padding: 2.2rem; text-align: center; cursor: pointer; transition: background .15s, border-color .15s; background: #fafbfc; }
+  .upload-area:hover { background: #f0f4ff; border-color: #85b7eb; }
+  .upload-area .up-icon { font-size: 28px; margin-bottom: 8px; }
+  .upload-area .up-title { font-size: 14px; font-weight: 600; color: #185FA5; margin-bottom: 4px; }
+  .upload-area .up-sub { font-size: 12px; color: #888; }
+  #file-list { margin-top: 10px; }
+  .file-item { display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: #e8f1fb; border-radius: 6px; font-size: 13px; color: #185FA5; margin-bottom: 5px; }
+  .submit-area { text-align: center; margin-top: 1.75rem; }
+  .submit-btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 48px; background: #378ADD; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; transition: background .15s, transform .1s, box-shadow .15s; box-shadow: 0 3px 14px rgba(55,138,221,.35); }
+  .submit-btn:hover { background: #185FA5; box-shadow: 0 4px 20px rgba(55,138,221,.45); }
+  .submit-btn:active { transform: scale(0.98); }
+  .toast { display: none; position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #185FA5; color: #fff; padding: 13px 30px; border-radius: 10px; font-size: 14px; font-weight: 600; z-index: 999; box-shadow: 0 6px 24px rgba(0,0,0,.18); white-space: nowrap; }
+  .progress-bar { height: 4px; background: #e4e6ea; border-radius: 999px; margin-bottom: 1.5rem; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #378ADD, #185FA5); border-radius: 999px; width: 0%; transition: width .4s ease; }
+</style>
+</head>
+<body>
+
+<div class="form-wrap">
+  <div class="form-header">
+    <div class="badge">Training &amp; Quality Assurance</div>
+    <h1>Spot Check Observation Form</h1>
+    <p>Training Manager Evaluation &mdash; Complete all required fields before submission</p>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+  <!-- Section 1 -->
+  <div class="section">
+    <div class="section-title"><div class="section-num">1</div><h2>Visit Information</h2></div>
+    <div class="two-col">
+      <div class="field"><label>Date of Spot Check <span class="req">*</span></label><input type="date" id="f-date" required></div>
+      <div class="field"><label>Observer Name <span class="req">*</span></label><input type="text" id="f-observer" placeholder="Full name" required></div>
+    </div>
+    <div class="two-col">
+      <div class="field"><label>Training Manager Name <span class="req">*</span></label><input type="text" id="f-tm" placeholder="Full name" required></div>
+      <div class="field"><label>Market / Region <span class="req">*</span></label>
+        <select id="f-region" required>
+          <option value="">Select region...</option>
+          <option>North</option><option>South</option><option>East</option><option>West</option><option>Central</option>
+        </select>
+      </div>
+    </div>
+    <div class="field"><label>Store Name / Location <span class="req">*</span></label><input type="text" id="f-store" placeholder="Store name or address" required></div>
+    <div class="divider"></div>
+    <div class="two-col">
+      <div class="field"><label>Visit Start Time</label><input type="time" id="f-start"></div>
+      <div class="field"><label>Visit End Time</label><input type="time" id="f-end"></div>
+    </div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section">
+    <div class="section-title"><div class="section-num">2</div><h2>Attendance &amp; Punctuality</h2></div>
+    <div class="field">
+      <label>Did the Training Manager report to the store on time? <span class="req">*</span></label>
+      <div class="radio-group" data-name="punctual">
+        <label class="radio-opt"><input type="radio" name="punctual" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="punctual" value="No"><span>No</span></label>
+        <label class="radio-opt"><input type="radio" name="punctual" value="Late"><span>Late</span></label>
+      </div>
+    </div>
+    <div class="conditional" id="cond-late">
+      <div class="field" style="margin-bottom:0"><label>Delay duration (in minutes)</label><input type="number" min="0" placeholder="e.g. 15"></div>
+    </div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section">
+    <div class="section-title"><div class="section-num">3</div><h2>Trainee Presence &amp; Management</h2></div>
+    <div class="field"><label>Number of trainees present <span class="req">*</span></label><input type="number" min="0" placeholder="0" required></div>
+    <div class="field">
+      <label>Did the Training Manager manage trainees fairly and effectively?</label>
+      <div class="radio-group" data-name="mgmt">
+        <label class="radio-opt"><input type="radio" name="mgmt" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="mgmt" value="No"><span>No</span></label>
+        <label class="radio-opt"><input type="radio" name="mgmt" value="Partially"><span>Partially</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Training Manager's attitude and approach toward trainees</label>
+      <div class="radio-group" data-name="attitude">
+        <label class="radio-opt"><input type="radio" name="attitude" value="Professional"><span>Professional</span></label>
+        <label class="radio-opt"><input type="radio" name="attitude" value="Supportive and Engaging"><span>Supportive and Engaging</span></label>
+        <label class="radio-opt"><input type="radio" name="attitude" value="Neutral"><span>Neutral</span></label>
+        <label class="radio-opt"><input type="radio" name="attitude" value="Needs Improvement"><span>Needs Improvement</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Additional comments regarding trainee management</label><textarea placeholder="Add comments here..."></textarea></div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section">
+    <div class="section-title"><div class="section-num">4</div><h2>Training Session Observation</h2></div>
+    <div class="field">
+      <label>Were the trainees attentive and engaged during the training session? <span class="req">*</span></label>
+      <div class="radio-group" data-name="attentive">
+        <label class="radio-opt"><input type="radio" name="attentive" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="attentive" value="Mostly Attentive"><span>Mostly Attentive</span></label>
+        <label class="radio-opt"><input type="radio" name="attentive" value="Not Attentive"><span>Not Attentive</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Topics or areas covered during the training session</label><textarea placeholder="Describe the training content..."></textarea></div>
+    <div class="field"><label>Approximate duration of the training session (minutes)</label><input type="number" min="0" placeholder="e.g. 45"></div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section">
+    <div class="section-title"><div class="section-num">5</div><h2>Sales Floor Observation</h2></div>
+    <div class="field">
+      <label>Did the Training Manager greet customers upon interaction? <span class="req">*</span></label>
+      <div class="radio-group" data-name="greet">
+        <label class="radio-opt"><input type="radio" name="greet" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="greet" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Did the Training Manager assist customers effectively? <span class="req">*</span></label>
+      <div class="radio-group" data-name="assist">
+        <label class="radio-opt"><input type="radio" name="assist" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="assist" value="Partially"><span>Partially</span></label>
+        <label class="radio-opt"><input type="radio" name="assist" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Overall behavior and customer interaction on the sales floor</label>
+      <div class="radio-group" data-name="floor">
+        <label class="radio-opt"><input type="radio" name="floor" value="Excellent"><span>Excellent</span></label>
+        <label class="radio-opt"><input type="radio" name="floor" value="Good"><span>Good</span></label>
+        <label class="radio-opt"><input type="radio" name="floor" value="Needs Improvement"><span>Needs Improvement</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section">
+    <div class="section-title"><div class="section-num">6</div><h2>Billing &amp; Operational Activities</h2></div>
+    <div class="field">
+      <label>Did the Training Manager perform any bill payment transactions?</label>
+      <div class="radio-group" data-name="billing">
+        <label class="radio-opt"><input type="radio" name="billing" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="billing" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Were any bill payment transactions rejected?</label>
+      <div class="radio-group" data-name="rejected">
+        <label class="radio-opt"><input type="radio" name="rejected" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="rejected" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="conditional" id="cond-rejection">
+      <div class="field" style="margin-bottom:0"><label>Reason for rejection</label><textarea placeholder="Describe the rejection reason..."></textarea></div>
+    </div>
+  </div>
+
+  <!-- Section 7 -->
+  <div class="section">
+    <div class="section-title"><div class="section-num">7</div><h2>Backroom Activities</h2></div>
+    <div class="field">
+      <label>Did the Training Manager spend time performing backroom activities?</label>
+      <div class="radio-group" data-name="backroom">
+        <label class="radio-opt"><input type="radio" name="backroom" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="backroom" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="conditional" id="cond-backroom">
+      <div class="two-col" style="margin-bottom:12px">
+        <div class="field" style="margin-bottom:0"><label>Backroom Start Time</label><input type="time"></div>
+        <div class="field" style="margin-bottom:0"><label>Backroom End Time</label><input type="time"></div>
+      </div>
+      <div class="field" style="margin-bottom:0"><label>Tasks or activities performed in the backroom</label><textarea placeholder="Describe backroom activities..."></textarea></div>
+    </div>
+  </div>
+
+  <!-- Section 8 -->
+  <div class="section">
+    <div class="section-title"><div class="section-num">8</div><h2>Phone Usage</h2></div>
+    <div class="field">
+      <label>Was the Training Manager observed using a phone during working hours?</label>
+      <div class="radio-group" data-name="phone">
+        <label class="radio-opt"><input type="radio" name="phone" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="phone" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="conditional" id="cond-phone">
+      <div class="two-col" style="margin-bottom:12px">
+        <div class="field" style="margin-bottom:0"><label>Total duration (minutes)</label><input type="number" min="0" placeholder="e.g. 10"></div>
+        <div class="field" style="margin-bottom:0"><label>Purpose of phone usage</label>
+          <select><option value="">Select...</option><option>Work-related</option><option>Personal</option><option>Both</option></select>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0"><label>Explanation for phone usage</label><textarea placeholder="Explain if applicable..."></textarea></div>
+    </div>
+  </div>
+
+  <!-- Section 9 -->
+  <div class="section">
+    <div class="section-title"><div class="section-num">9</div><h2>Overall Assessment</h2></div>
+    <div class="field">
+      <label>Overall productivity and effectiveness of the Training Manager <span class="req">*</span></label>
+      <div class="radio-group" data-name="overall">
+        <label class="radio-opt"><input type="radio" name="overall" value="Excellent"><span>Excellent</span></label>
+        <label class="radio-opt"><input type="radio" name="overall" value="Good"><span>Good</span></label>
+        <label class="radio-opt"><input type="radio" name="overall" value="Average"><span>Average</span></label>
+        <label class="radio-opt"><input type="radio" name="overall" value="Needs Improvement"><span>Needs Improvement</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Additional observations or remarks</label><textarea placeholder="Any other relevant observations..."></textarea></div>
+  </div>
+
+  <!-- Section 10 -->
+  <div class="section">
+    <div class="section-title"><div class="section-num">10</div><h2>Supporting Evidence <span style="font-size:13px;font-weight:400;color:#999">(Optional)</span></h2></div>
+    <div class="upload-area" onclick="document.getElementById('file-up').click()">
+      <div class="up-icon">📎</div>
+      <div class="up-title">Click to upload photos or files</div>
+      <div class="up-sub">JPG, PNG, PDF supported &mdash; multiple files allowed</div>
+      <input type="file" id="file-up" multiple accept="image/*,.pdf" style="display:none" onchange="handleFiles(this)">
+    </div>
+    <div id="file-list"></div>
+  </div>
+
+  <div class="submit-area">
+    <button class="submit-btn" onclick="submitForm()">
+      ✓ &nbsp;Submit Observation Form
+    </button>
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ Form submitted successfully!</div>
+
+<script>
+  // Radio highlight
+  document.querySelectorAll('.radio-group').forEach(function(group) {
+    group.querySelectorAll('.radio-opt').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        group.querySelectorAll('.radio-opt').forEach(function(o) { o.classList.remove('selected'); });
+        opt.classList.add('selected');
+        updateProgress();
+      });
+    });
+  });
+
+  // Conditional logic
+  document.querySelectorAll('input[name="punctual"]').forEach(function(r) {
+    r.addEventListener('change', function() {
+      document.getElementById('cond-late').classList.toggle('show', this.value === 'No' || this.value === 'Late');
+    });
+  });
+  document.querySelectorAll('input[name="rejected"]').forEach(function(r) {
+    r.addEventListener('change', function() {
+      document.getElementById('cond-rejection').classList.toggle('show', this.value === 'Yes');
+    });
+  });
+  document.querySelectorAll('input[name="backroom"]').forEach(function(r) {
+    r.addEventListener('change', function() {
+      document.getElementById('cond-backroom').classList.toggle('show', this.value === 'Yes');
+    });
+  });
+  document.querySelectorAll('input[name="phone"]').forEach(function(r) {
+    r.addEventListener('change', function() {
+      document.getElementById('cond-phone').classList.toggle('show', this.value === 'Yes');
+    });
+  });
+
+  // Progress bar
+  var requiredNames = ['punctual','attentive','greet','assist','overall'];
+  var requiredInputs = ['f-date','f-observer','f-tm','f-region','f-store'];
+  function updateProgress() {
+    var total = requiredNames.length + requiredInputs.length;
+    var filled = 0;
+    requiredNames.forEach(function(n) {
+      if (document.querySelector('input[name="'+n+'"]:checked')) filled++;
+    });
+    requiredInputs.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el && el.value.trim() !== '') filled++;
+    });
+    document.getElementById('progress').style.width = Math.round((filled/total)*100) + '%';
+  }
+  requiredInputs.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateProgress);
+  });
+
+  // File upload
+  function handleFiles(input) {
+    var list = document.getElementById('file-list');
+    list.innerHTML = Array.from(input.files).map(function(f) {
+      return '<div class="file-item">📄 ' + f.name + '</div>';
+    }).join('');
+  }
+
+  // Submit
+  function submitForm() {
+    var toast = document.getElementById('toast');
+    toast.style.display = 'block';
+    document.getElementById('progress').style.width = '100%';
+    setTimeout(function() { toast.style.display = 'none'; }, 3500);
+  }
+</script>
+</body>
+</html>
