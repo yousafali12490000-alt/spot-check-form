@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trainer Observation Form</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f4f5f7; color: #1a1a2e; min-height: 100vh; padding: 2rem 1rem 4rem; }
+  .form-wrap { max-width: 780px; margin: 0 auto; }
+  .form-header { text-align: center; padding: 2.5rem 2rem 2rem; border-radius: 14px; background: #fff; border: 1px solid #e4e6ea; margin-bottom: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+  .badge { display: inline-block; background: #e8f1fb; color: #185FA5; font-size: 11px; font-weight: 600; padding: 4px 14px; border-radius: 999px; margin-bottom: 14px; letter-spacing: .06em; text-transform: uppercase; }
+  .form-header h1 { font-size: 24px; font-weight: 700; color: #111; margin-bottom: 8px; }
+  .form-header p { font-size: 14px; color: #666; line-height: 1.6; }
+  .meta-section { background: #fff; border: 1px solid #e4e6ea; border-radius: 14px; padding: 1.5rem 1.75rem; margin-bottom: 1.1rem; box-shadow: 0 1px 6px rgba(0,0,0,.04); }
+  .meta-title { font-size: 13px; font-weight: 600; color: #185FA5; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 1.1rem; }
+  .section { background: #fff; border: 1px solid #e4e6ea; border-radius: 14px; padding: 1.5rem 1.75rem; margin-bottom: 1.1rem; box-shadow: 0 1px 6px rgba(0,0,0,.04); }
+  .section-title { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 1.3rem; padding-bottom: 1rem; border-bottom: 1px solid #f0f0f0; }
+  .section-num { width: 32px; height: 32px; border-radius: 50%; background: #f0f4ff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #185FA5; flex-shrink: 0; margin-top: 1px; }
+  .section-title-text h2 { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 3px; }
+  .section-title-text p { font-size: 12px; color: #888; line-height: 1.5; }
+  .field { margin-bottom: 1.2rem; }
+  .field:last-child { margin-bottom: 0; }
+  .field label { display: block; font-size: 13px; font-weight: 600; color: #333; margin-bottom: 7px; line-height: 1.5; }
+  .req { color: #e24b4a; margin-left: 2px; }
+  input[type=text], input[type=number], input[type=date], input[type=time], select, textarea {
+    width: 100%; padding: 9px 13px; border: 1px solid #dde1e7; border-radius: 8px;
+    font-size: 14px; font-family: inherit; background: #fafbfc; color: #111;
+    outline: none; transition: border-color .15s, box-shadow .15s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: #378ADD; box-shadow: 0 0 0 3px rgba(55,138,221,.12); background: #fff; }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media(max-width:540px){ .two-col { grid-template-columns: 1fr; } }
+  .radio-group { display: flex; flex-direction: column; gap: 7px; }
+  .radio-row { display: flex; flex-direction: row; flex-wrap: wrap; gap: 7px; }
+  .radio-opt { display: flex; align-items: center; gap: 10px; padding: 9px 13px; border: 1px solid #e4e6ea; border-radius: 8px; cursor: pointer; transition: background .12s, border-color .12s; user-select: none; }
+  .radio-row .radio-opt { flex: 1; min-width: 90px; }
+  .radio-opt:hover { background: #f5f8ff; border-color: #b5d4f4; }
+  .radio-opt input[type=radio], .radio-opt input[type=checkbox] { accent-color: #378ADD; width: 15px; height: 15px; cursor: pointer; flex-shrink: 0; }
+  .radio-opt span { font-size: 13px; color: #222; }
+  .radio-opt.selected { background: #e8f1fb; border-color: #85b7eb; }
+  .radio-opt.selected span { color: #185FA5; font-weight: 600; }
+  .conditional { display: none; margin-top: 10px; padding: 14px; background: #f8f9fc; border-radius: 10px; border: 1px solid #eaedf2; }
+  .conditional.show { display: block; }
+  .divider { height: 1px; background: #f0f0f0; margin: 1.1rem 0; }
+  .upload-area { border: 2px dashed #c8d3e0; border-radius: 10px; padding: 2rem; text-align: center; cursor: pointer; transition: background .15s, border-color .15s; background: #fafbfc; }
+  .upload-area:hover { background: #f0f4ff; border-color: #85b7eb; }
+  .up-icon { font-size: 26px; margin-bottom: 8px; }
+  .up-title { font-size: 14px; font-weight: 600; color: #185FA5; margin-bottom: 4px; }
+  .up-sub { font-size: 12px; color: #888; }
+  .file-item { display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: #e8f1fb; border-radius: 6px; font-size: 13px; color: #185FA5; margin-top: 6px; }
+  .progress-bar { height: 5px; background: #e4e6ea; border-radius: 999px; margin-bottom: 1.4rem; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #378ADD, #185FA5); border-radius: 999px; width: 0%; transition: width .4s ease; }
+  .submit-area { text-align: center; margin-top: 1.75rem; }
+  .submit-btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 52px; background: #378ADD; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background .15s, transform .1s; box-shadow: 0 3px 14px rgba(55,138,221,.35); }
+  .submit-btn:hover { background: #185FA5; }
+  .submit-btn:active { transform: scale(0.98); }
+  .toast { display: none; position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%); background: #185FA5; color: #fff; padding: 13px 30px; border-radius: 10px; font-size: 14px; font-weight: 600; z-index: 999; box-shadow: 0 6px 24px rgba(0,0,0,.18); }
+  .rating-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .rating-btn { flex: 1; min-width: 70px; padding: 9px 6px; border: 1px solid #e4e6ea; border-radius: 8px; text-align: center; cursor: pointer; font-size: 13px; color: #555; transition: all .12s; user-select: none; }
+  .rating-btn:hover { border-color: #85b7eb; background: #f5f8ff; }
+  .rating-btn.sel-excellent { background: #eaf3de; border-color: #97c459; color: #3B6D11; font-weight: 600; }
+  .rating-btn.sel-good { background: #e8f1fb; border-color: #85b7eb; color: #185FA5; font-weight: 600; }
+  .rating-btn.sel-average { background: #faeeda; border-color: #FAC775; color: #854F0B; font-weight: 600; }
+  .rating-btn.sel-poor { background: #fcebeb; border-color: #F09595; color: #A32D2D; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="form-wrap">
+
+  <div class="form-header">
+    <div class="badge">Quality Assurance</div>
+    <h1>Trainer Observation Form</h1>
+    <p>Surveillance Trainer Observation &amp; Teaching Evaluation<br>Complete all sections based on what was directly observed during the visit.</p>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+  <!-- Visit Info -->
+  <div class="meta-section">
+    <div class="meta-title">Visit Information</div>
+    <div class="two-col">
+      <div class="field"><label>Date of Observation <span class="req">*</span></label><input type="date" id="f-date" required></div>
+      <div class="field"><label>Observer Name <span class="req">*</span></label><input type="text" id="f-observer" placeholder="Full name" required></div>
+    </div>
+    <div class="two-col">
+      <div class="field"><label>Trainer Name <span class="req">*</span></label><input type="text" id="f-trainer" placeholder="Full name" required></div>
+      <div class="field"><label>Market / Region <span class="req">*</span></label>
+        <select id="f-region" required><option value="">Select region...</option><option>North</option><option>South</option><option>East</option><option>West</option><option>Central</option></select>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="field"><label>Store Name / Location <span class="req">*</span></label><input type="text" id="f-store" placeholder="Store name or address" required></div>
+      <div class="field"><label>Number of Trainees Present</label><input type="number" min="0" placeholder="0"></div>
+    </div>
+    <div class="two-col">
+      <div class="field"><label>Visit Start Time</label><input type="time"></div>
+      <div class="field"><label>Visit End Time</label><input type="time"></div>
+    </div>
+  </div>
+
+  <!-- Section 1: Professionalism & Punctuality -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">1</div>
+      <div class="section-title-text"><h2>Professionalism &amp; Punctuality</h2><p>Arrival times, uniform compliance, professional conduct</p></div>
+    </div>
+    <div class="field">
+      <label>Did the trainer arrive on time for the scheduled shift? <span class="req">*</span></label>
+      <div class="radio-row" data-name="s1-ontime">
+        <label class="radio-opt"><input type="radio" name="s1-ontime" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s1-ontime" value="No"><span>No</span></label>
+        <label class="radio-opt"><input type="radio" name="s1-ontime" value="Late"><span>Late</span></label>
+      </div>
+    </div>
+    <div class="conditional" id="cond-late">
+      <div class="field" style="margin:0"><label>Delay duration (minutes) and reason</label><input type="text" placeholder="e.g. 15 mins – traffic"></div>
+    </div>
+    <div class="field">
+      <label>Were trainees also on time?</label>
+      <div class="radio-row" data-name="s1-trainee-time">
+        <label class="radio-opt"><input type="radio" name="s1-trainee-time" value="Yes – All On Time"><span>Yes – All On Time</span></label>
+        <label class="radio-opt"><input type="radio" name="s1-trainee-time" value="Some Late"><span>Some Late</span></label>
+        <label class="radio-opt"><input type="radio" name="s1-trainee-time" value="All Late"><span>All Late</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>If a trainee was late, did the trainer address it appropriately?</label>
+      <div class="radio-row" data-name="s1-addressed">
+        <label class="radio-opt"><input type="radio" name="s1-addressed" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s1-addressed" value="No"><span>No</span></label>
+        <label class="radio-opt"><input type="radio" name="s1-addressed" value="N/A"><span>N/A</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Were the trainer and trainees wearing the required uniform and name tag?</label>
+      <div class="radio-row" data-name="s1-uniform">
+        <label class="radio-opt"><input type="radio" name="s1-uniform" value="Yes – Both"><span>Yes – Both</span></label>
+        <label class="radio-opt"><input type="radio" name="s1-uniform" value="Trainer Only"><span>Trainer Only</span></label>
+        <label class="radio-opt"><input type="radio" name="s1-uniform" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Section Rating</label>
+      <div class="rating-row" data-rating="r1">
+        <div class="rating-btn" data-val="Excellent">Excellent</div>
+        <div class="rating-btn" data-val="Good">Good</div>
+        <div class="rating-btn" data-val="Average">Average</div>
+        <div class="rating-btn" data-val="Needs Improvement">Needs Improvement</div>
+      </div>
+    </div>
+    <div class="field"><label>Comments</label><textarea placeholder="Additional observations..."></textarea></div>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">2</div>
+      <div class="section-title-text"><h2>Inclusive &amp; Engaging Training</h2><p>All trainees involved equally, hands-on participation, no favoritism</p></div>
+    </div>
+    <div class="field">
+      <label>Did the trainer involve all trainees in discussions and activities?</label>
+      <div class="radio-row" data-name="s2-involve">
+        <label class="radio-opt"><input type="radio" name="s2-involve" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s2-involve" value="Partially"><span>Partially</span></label>
+        <label class="radio-opt"><input type="radio" name="s2-involve" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Were trainees given opportunities to practice tasks themselves (not just observe)?</label>
+      <div class="radio-row" data-name="s2-practice">
+        <label class="radio-opt"><input type="radio" name="s2-practice" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s2-practice" value="Partially"><span>Partially</span></label>
+        <label class="radio-opt"><input type="radio" name="s2-practice" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Were any signs of favoritism observed toward specific trainees?</label>
+      <div class="radio-row" data-name="s2-favor">
+        <label class="radio-opt"><input type="radio" name="s2-favor" value="No – Equal Treatment"><span>No – Equal Treatment</span></label>
+        <label class="radio-opt"><input type="radio" name="s2-favor" value="Yes – Favoritism Noted"><span>Yes – Favoritism Noted</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Section Rating</label>
+      <div class="rating-row" data-rating="r2">
+        <div class="rating-btn" data-val="Excellent">Excellent</div>
+        <div class="rating-btn" data-val="Good">Good</div>
+        <div class="rating-btn" data-val="Average">Average</div>
+        <div class="rating-btn" data-val="Needs Improvement">Needs Improvement</div>
+      </div>
+    </div>
+    <div class="field"><label>Comments</label><textarea placeholder="Additional observations..."></textarea></div>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">3</div>
+      <div class="section-title-text"><h2>Trainee Engagement &amp; Focus</h2><p>Attentiveness, distraction levels, trainer response</p></div>
+    </div>
+    <div class="field">
+      <label>How attentive were trainees during the session? <span class="req">*</span></label>
+      <div class="radio-group" data-name="s3-attentive">
+        <label class="radio-opt"><input type="radio" name="s3-attentive" value="Fully Attentive"><span>Fully Attentive</span></label>
+        <label class="radio-opt"><input type="radio" name="s3-attentive" value="Mostly Attentive"><span>Mostly Attentive</span></label>
+        <label class="radio-opt"><input type="radio" name="s3-attentive" value="Occasionally Distracted"><span>Occasionally Distracted</span></label>
+        <label class="radio-opt"><input type="radio" name="s3-attentive" value="Not Attentive"><span>Not Attentive</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Were signs of distraction observed (phone use, lack of eye contact, disengagement)?</label>
+      <div class="radio-row" data-name="s3-distract">
+        <label class="radio-opt"><input type="radio" name="s3-distract" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s3-distract" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Did the trainer redirect attention when trainees became distracted?</label>
+      <div class="radio-row" data-name="s3-redirect">
+        <label class="radio-opt"><input type="radio" name="s3-redirect" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s3-redirect" value="No"><span>No</span></label>
+        <label class="radio-opt"><input type="radio" name="s3-redirect" value="N/A"><span>N/A</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Comments</label><textarea placeholder="Describe any distraction or engagement issues..."></textarea></div>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">4</div>
+      <div class="section-title-text"><h2>Professional Communication &amp; Conduct</h2><p>Tone, respect, open communication, conflict handling</p></div>
+    </div>
+    <div class="field">
+      <label>Was communication between trainer and trainees professional and respectful?</label>
+      <div class="radio-group" data-name="s4-tone">
+        <label class="radio-opt"><input type="radio" name="s4-tone" value="Yes – Professional Throughout"><span>Yes – Professional Throughout</span></label>
+        <label class="radio-opt"><input type="radio" name="s4-tone" value="Mostly Professional"><span>Mostly Professional</span></label>
+        <label class="radio-opt"><input type="radio" name="s4-tone" value="Unprofessional at Times"><span>Unprofessional at Times</span></label>
+        <label class="radio-opt"><input type="radio" name="s4-tone" value="Unprofessional"><span>Unprofessional</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Were any arguments or complaints observed between trainer and trainees?</label>
+      <div class="radio-row" data-name="s4-conflict">
+        <label class="radio-opt"><input type="radio" name="s4-conflict" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s4-conflict" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="conditional" id="cond-conflict">
+      <div class="field" style="margin:0"><label>Describe the situation</label><textarea placeholder="Explain what occurred and how it was handled..."></textarea></div>
+    </div>
+    <div class="field">
+      <label>Did trainees feel comfortable asking questions?</label>
+      <div class="radio-row" data-name="s4-comfort">
+        <label class="radio-opt"><input type="radio" name="s4-comfort" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s4-comfort" value="Partially"><span>Partially</span></label>
+        <label class="radio-opt"><input type="radio" name="s4-comfort" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Comments</label><textarea placeholder="Additional observations..."></textarea></div>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">5</div>
+      <div class="section-title-text"><h2>Positive Learning Environment</h2><p>Welcoming atmosphere, encouragement, building confidence</p></div>
+    </div>
+    <div class="field">
+      <label>Did the trainer create a welcoming and supportive learning environment?</label>
+      <div class="radio-row" data-name="s5-welcoming">
+        <label class="radio-opt"><input type="radio" name="s5-welcoming" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s5-welcoming" value="Partially"><span>Partially</span></label>
+        <label class="radio-opt"><input type="radio" name="s5-welcoming" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Did the trainer use positive reinforcement to build trainee confidence?</label>
+      <div class="radio-row" data-name="s5-reinforce">
+        <label class="radio-opt"><input type="radio" name="s5-reinforce" value="Yes – Regularly"><span>Yes – Regularly</span></label>
+        <label class="radio-opt"><input type="radio" name="s5-reinforce" value="Occasionally"><span>Occasionally</span></label>
+        <label class="radio-opt"><input type="radio" name="s5-reinforce" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Did the trainer actively motivate trainees to learn and improve?</label>
+      <div class="radio-row" data-name="s5-motivate">
+        <label class="radio-opt"><input type="radio" name="s5-motivate" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s5-motivate" value="Partially"><span>Partially</span></label>
+        <label class="radio-opt"><input type="radio" name="s5-motivate" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Section Rating</label>
+      <div class="rating-row" data-rating="r5">
+        <div class="rating-btn" data-val="Excellent">Excellent</div>
+        <div class="rating-btn" data-val="Good">Good</div>
+        <div class="rating-btn" data-val="Average">Average</div>
+        <div class="rating-btn" data-val="Needs Improvement">Needs Improvement</div>
+      </div>
+    </div>
+    <div class="field"><label>Comments</label><textarea placeholder="Additional observations..."></textarea></div>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">6</div>
+      <div class="section-title-text"><h2>Customer Interaction &amp; Sales Training</h2><p>Sales opportunities demonstrated, balancing service with sales</p></div>
+    </div>
+    <div class="field">
+      <label>When customers entered for bill payment, did the trainer demonstrate or encourage sales opportunities?</label>
+      <div class="radio-group" data-name="s6-sales">
+        <label class="radio-opt"><input type="radio" name="s6-sales" value="Yes – Clearly Demonstrated"><span>Yes – Clearly Demonstrated</span></label>
+        <label class="radio-opt"><input type="radio" name="s6-sales" value="Partially"><span>Partially</span></label>
+        <label class="radio-opt"><input type="radio" name="s6-sales" value="No"><span>No</span></label>
+        <label class="radio-opt"><input type="radio" name="s6-sales" value="No Customers During Visit"><span>No Customers During Visit</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Were trainees shown how to properly balance customer service with sales?</label>
+      <div class="radio-row" data-name="s6-balance">
+        <label class="radio-opt"><input type="radio" name="s6-balance" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s6-balance" value="Partially"><span>Partially</span></label>
+        <label class="radio-opt"><input type="radio" name="s6-balance" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Comments</label><textarea placeholder="Describe customer interaction training observed..."></textarea></div>
+  </div>
+
+  <!-- Section 7 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">7</div>
+      <div class="section-title-text"><h2>Store Standards &amp; Responsibilities</h2><p>Cleanliness, maintenance, leading by example</p></div>
+    </div>
+    <div class="field">
+      <label>Did the trainer and trainees participate in store cleaning and maintenance?</label>
+      <div class="radio-row" data-name="s7-clean">
+        <label class="radio-opt"><input type="radio" name="s7-clean" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s7-clean" value="Partially"><span>Partially</span></label>
+        <label class="radio-opt"><input type="radio" name="s7-clean" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>How would you rate the overall cleanliness of the store during the visit?</label>
+      <div class="radio-group" data-name="s7-cleanliness">
+        <label class="radio-opt"><input type="radio" name="s7-cleanliness" value="Clean and Well-Maintained"><span>Clean and Well-Maintained</span></label>
+        <label class="radio-opt"><input type="radio" name="s7-cleanliness" value="Acceptable"><span>Acceptable</span></label>
+        <label class="radio-opt"><input type="radio" name="s7-cleanliness" value="Needs Attention"><span>Needs Attention</span></label>
+        <label class="radio-opt"><input type="radio" name="s7-cleanliness" value="Poor"><span>Poor</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Comments</label><textarea placeholder="Describe store condition and any cleanliness concerns..."></textarea></div>
+  </div>
+
+  <!-- Section 8 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">8</div>
+      <div class="section-title-text"><h2>Ownership of Training</h2><p>Is the assigned trainer actively leading or delegating to others?</p></div>
+    </div>
+    <div class="field">
+      <label>Who was primarily conducting the training during the observation?</label>
+      <div class="radio-group" data-name="s8-who">
+        <label class="radio-opt"><input type="radio" name="s8-who" value="Assigned Trainer – Full Ownership"><span>Assigned Trainer – Full Ownership</span></label>
+        <label class="radio-opt"><input type="radio" name="s8-who" value="Assigned Trainer with Occasional Help"><span>Assigned Trainer with Occasional Help from Others</span></label>
+        <label class="radio-opt"><input type="radio" name="s8-who" value="Mostly Delegated to Others"><span>Mostly Delegated to Others</span></label>
+        <label class="radio-opt"><input type="radio" name="s8-who" value="Fully Delegated – Trainer Not Involved"><span>Fully Delegated – Trainer Not Involved</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Comments</label><textarea placeholder="Explain who was involved in training delivery..."></textarea></div>
+  </div>
+
+  <!-- Section 9 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">9</div>
+      <div class="section-title-text"><h2>Handling Difficult Customer Situations</h2><p>Trainer support during challenging interactions, teaching moments</p></div>
+    </div>
+    <div class="field">
+      <label>Were any difficult or upset customer situations observed during the visit?</label>
+      <div class="radio-row" data-name="s9-difficult">
+        <label class="radio-opt"><input type="radio" name="s9-difficult" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s9-difficult" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="conditional" id="cond-difficult">
+      <div class="field">
+        <label>Did the trainer step in to support the trainee?</label>
+        <div class="radio-row" data-name="s9-stepin">
+          <label class="radio-opt"><input type="radio" name="s9-stepin" value="Yes"><span>Yes</span></label>
+          <label class="radio-opt"><input type="radio" name="s9-stepin" value="Partially"><span>Partially</span></label>
+          <label class="radio-opt"><input type="radio" name="s9-stepin" value="No"><span>No</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Was it used as a teaching opportunity?</label>
+        <div class="radio-row" data-name="s9-teach">
+          <label class="radio-opt"><input type="radio" name="s9-teach" value="Yes"><span>Yes</span></label>
+          <label class="radio-opt"><input type="radio" name="s9-teach" value="No"><span>No</span></label>
+        </div>
+      </div>
+      <div class="field" style="margin:0"><label>Describe the situation and how it was handled</label><textarea placeholder="Explain what happened and the trainer's response..."></textarea></div>
+    </div>
+  </div>
+
+  <!-- Section 10 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">10</div>
+      <div class="section-title-text"><h2>Effective Use of Training Time</h2><p>Structured training throughout shift, hands-on vs passive observation</p></div>
+    </div>
+    <div class="field">
+      <label>How would you describe the overall structure of training during the shift?</label>
+      <div class="radio-group" data-name="s10-structure">
+        <label class="radio-opt"><input type="radio" name="s10-structure" value="Well-Structured Throughout"><span>Well-Structured Throughout</span></label>
+        <label class="radio-opt"><input type="radio" name="s10-structure" value="Structured for Most of the Shift"><span>Structured for Most of the Shift</span></label>
+        <label class="radio-opt"><input type="radio" name="s10-structure" value="Inconsistent – Some Gaps"><span>Inconsistent – Some Gaps</span></label>
+        <label class="radio-opt"><input type="radio" name="s10-structure" value="Minimal Training Observed"><span>Minimal Training Observed</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Were trainees mostly shadowing (watching) rather than actively participating?</label>
+      <div class="radio-row" data-name="s10-shadow">
+        <label class="radio-opt"><input type="radio" name="s10-shadow" value="Mostly Hands-On"><span>Mostly Hands-On</span></label>
+        <label class="radio-opt"><input type="radio" name="s10-shadow" value="Balanced"><span>Balanced</span></label>
+        <label class="radio-opt"><input type="radio" name="s10-shadow" value="Mostly Shadowing"><span>Mostly Shadowing</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Approximate % of shift spent on active training</label>
+      <select>
+        <option value="">Select...</option>
+        <option>0–25%</option><option>26–50%</option><option>51–75%</option><option>76–100%</option>
+      </select>
+    </div>
+    <div class="field"><label>Comments</label><textarea placeholder="Describe how training time was used..."></textarea></div>
+  </div>
+
+  <!-- Section 11 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">11</div>
+      <div class="section-title-text"><h2>Knowledge Reinforcement</h2><p>Quizzes, verbal reviews, comprehension checks, study materials</p></div>
+    </div>
+    <div class="field">
+      <label>Did the trainer regularly check for trainee understanding?</label>
+      <div class="radio-row" data-name="s11-check">
+        <label class="radio-opt"><input type="radio" name="s11-check" value="Yes – Regularly"><span>Yes – Regularly</span></label>
+        <label class="radio-opt"><input type="radio" name="s11-check" value="Occasionally"><span>Occasionally</span></label>
+        <label class="radio-opt"><input type="radio" name="s11-check" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>What methods were used to reinforce knowledge? (select all that apply)</label>
+      <div class="radio-group">
+        <label class="radio-opt"><input type="checkbox"><span>Verbal Questions / Q&amp;A</span></label>
+        <label class="radio-opt"><input type="checkbox"><span>Written Quiz</span></label>
+        <label class="radio-opt"><input type="checkbox"><span>Study Guide / Materials Provided</span></label>
+        <label class="radio-opt"><input type="checkbox"><span>Practice Scenarios / Role Play</span></label>
+        <label class="radio-opt"><input type="checkbox"><span>None Observed</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Comments</label><textarea placeholder="Describe how the trainer checked for understanding..."></textarea></div>
+  </div>
+
+  <!-- Section 12 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">12</div>
+      <div class="section-title-text"><h2>Training Methods</h2><p>Teaching style, tools used, clarity of explanation</p></div>
+    </div>
+    <div class="field">
+      <label>What training style was primarily used?</label>
+      <div class="radio-group" data-name="s12-style">
+        <label class="radio-opt"><input type="radio" name="s12-style" value="Classroom-Style Instruction"><span>Classroom-Style Instruction</span></label>
+        <label class="radio-opt"><input type="radio" name="s12-style" value="Live Demonstration"><span>Live Demonstration</span></label>
+        <label class="radio-opt"><input type="radio" name="s12-style" value="Guided Practice"><span>Guided Practice (Trainer-Assisted)</span></label>
+        <label class="radio-opt"><input type="radio" name="s12-style" value="Mixed Methods"><span>Mixed Methods</span></label>
+        <label class="radio-opt"><input type="radio" name="s12-style" value="No Clear Method"><span>No Clear Method Observed</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Were any teaching tools used (whiteboard, handouts, visual aids)?</label>
+      <div class="radio-row" data-name="s12-tools">
+        <label class="radio-opt"><input type="radio" name="s12-tools" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s12-tools" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Were explanations clear and easy for trainees to understand?</label>
+      <div class="radio-row" data-name="s12-clarity">
+        <label class="radio-opt"><input type="radio" name="s12-clarity" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s12-clarity" value="Partially"><span>Partially</span></label>
+        <label class="radio-opt"><input type="radio" name="s12-clarity" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Comments</label><textarea placeholder="Describe the methods and tools used..."></textarea></div>
+  </div>
+
+  <!-- Section 13 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">13</div>
+      <div class="section-title-text"><h2>Training Focus &amp; Content</h2><p>Topics covered, key areas, logical progression</p></div>
+    </div>
+    <div class="field">
+      <label>What topics or focus areas were covered? (select all that apply)</label>
+      <div class="radio-group">
+        <label class="radio-opt"><input type="checkbox"><span>Promotions</span></label>
+        <label class="radio-opt"><input type="checkbox"><span>Hard Count</span></label>
+        <label class="radio-opt"><input type="checkbox"><span>ELB</span></label>
+        <label class="radio-opt"><input type="checkbox"><span>Heart Model</span></label>
+        <label class="radio-opt"><input type="checkbox"><span>Customer Service</span></label>
+        <label class="radio-opt"><input type="checkbox"><span>Sales Techniques</span></label>
+        <label class="radio-opt"><input type="checkbox"><span>Other Operational Procedures</span></label>
+        <label class="radio-opt"><input type="checkbox"><span>No Specific Topics Covered</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Did training follow a logical progression that builds trainee knowledge?</label>
+      <div class="radio-row" data-name="s13-logical">
+        <label class="radio-opt"><input type="radio" name="s13-logical" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s13-logical" value="Partially"><span>Partially</span></label>
+        <label class="radio-opt"><input type="radio" name="s13-logical" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Additional details on content covered</label><textarea placeholder="Describe what was taught and how it was delivered..."></textarea></div>
+  </div>
+
+  <!-- Section 14 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">14</div>
+      <div class="section-title-text"><h2>Productive Use of Downtime</h2><p>Use of slow periods for learning, minimizing idle time</p></div>
+    </div>
+    <div class="field">
+      <label>Were there long periods of silence or inactivity when no customers were present?</label>
+      <div class="radio-row" data-name="s14-idle">
+        <label class="radio-opt"><input type="radio" name="s14-idle" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s14-idle" value="Occasionally"><span>Occasionally</span></label>
+        <label class="radio-opt"><input type="radio" name="s14-idle" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Did the trainer use quiet/slow periods productively for training?</label>
+      <div class="radio-group" data-name="s14-downtime">
+        <label class="radio-opt"><input type="radio" name="s14-downtime" value="Yes – Effectively Used"><span>Yes – Effectively Used for Training</span></label>
+        <label class="radio-opt"><input type="radio" name="s14-downtime" value="Partially"><span>Partially</span></label>
+        <label class="radio-opt"><input type="radio" name="s14-downtime" value="No – Idle Time Wasted"><span>No – Idle Time Was Wasted</span></label>
+        <label class="radio-opt"><input type="radio" name="s14-downtime" value="No Downtime Occurred"><span>No Downtime Occurred During Visit</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Comments</label><textarea placeholder="Describe how downtime was handled..."></textarea></div>
+  </div>
+
+  <!-- Section 15 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num">15</div>
+      <div class="section-title-text"><h2>Equipment Setup &amp; Store Layout</h2><p>VSA positioning, equipment standards, correct setup training</p></div>
+    </div>
+    <div class="field">
+      <label>Was the VSA (screen/display) correctly facing customers?</label>
+      <div class="radio-group" data-name="s15-vsa">
+        <label class="radio-opt"><input type="radio" name="s15-vsa" value="Yes – Facing Customers (Correct)"><span>Yes – Facing Customers (Correct)</span></label>
+        <label class="radio-opt"><input type="radio" name="s15-vsa" value="No – Facing Employees (Incorrect)"><span>No – Facing Employees (Incorrect)</span></label>
+        <label class="radio-opt"><input type="radio" name="s15-vsa" value="Not Checked"><span>Not Checked / Unable to Verify</span></label>
+      </div>
+    </div>
+    <div class="field">
+      <label>Did the trainer teach trainees the correct equipment setup and reasoning behind it?</label>
+      <div class="radio-row" data-name="s15-taught">
+        <label class="radio-opt"><input type="radio" name="s15-taught" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="s15-taught" value="No"><span>No</span></label>
+        <label class="radio-opt"><input type="radio" name="s15-taught" value="N/A"><span>N/A</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Comments</label><textarea placeholder="Note any equipment or layout issues observed..."></textarea></div>
+  </div>
+
+  <!-- Overall Assessment -->
+  <div class="section" style="border-color:#d4a800;">
+    <div class="section-title">
+      <div class="section-num" style="background:#fff8e1;color:#b8860b;">★</div>
+      <div class="section-title-text"><h2>Overall Assessment</h2><p>Summary evaluation of this trainer observation</p></div>
+    </div>
+    <div class="field">
+      <label>Overall performance rating for this trainer <span class="req">*</span></label>
+      <div class="rating-row" data-rating="overall">
+        <div class="rating-btn" data-val="Excellent">Excellent</div>
+        <div class="rating-btn" data-val="Good">Good</div>
+        <div class="rating-btn" data-val="Average">Average</div>
+        <div class="rating-btn" data-val="Needs Improvement">Needs Improvement</div>
+      </div>
+    </div>
+    <div class="field"><label>Key strengths observed during this visit</label><textarea placeholder="What did the trainer do well?"></textarea></div>
+    <div class="field"><label>Key areas requiring improvement</label><textarea placeholder="What needs to be addressed or improved?"></textarea></div>
+    <div class="field">
+      <label>Does this trainer require a follow-up observation?</label>
+      <div class="radio-row" data-name="followup">
+        <label class="radio-opt"><input type="radio" name="followup" value="Yes"><span>Yes</span></label>
+        <label class="radio-opt"><input type="radio" name="followup" value="No"><span>No</span></label>
+      </div>
+    </div>
+    <div class="field"><label>Additional remarks</label><textarea placeholder="Any other notes..."></textarea></div>
+  </div>
+
+  <!-- Supporting Evidence -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-num" style="font-size:16px;">+</div>
+      <div class="section-title-text"><h2>Supporting Evidence <span style="font-size:12px;font-weight:400;color:#999">(Optional)</span></h2><p>Upload photos or files related to this observation</p></div>
+    </div>
+    <div class="upload-area" onclick="document.getElementById('file-up').click()">
+      <div class="up-icon">📎</div>
+      <div class="up-title">Click to upload photos or files</div>
+      <div class="up-sub">JPG, PNG, PDF supported — multiple files allowed</div>
+      <input type="file" id="file-up" multiple accept="image/*,.pdf" style="display:none" onchange="handleFiles(this)">
+    </div>
+    <div id="file-list"></div>
+  </div>
+
+  <div class="submit-area">
+    <button class="submit-btn" onclick="submitForm()">✓ &nbsp;Submit Observation Form</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ Form submitted successfully!</div>
+
+<script>
+  document.querySelectorAll('.radio-group, .radio-row').forEach(function(group) {
+    group.querySelectorAll('.radio-opt').forEach(function(opt) {
+      var inp = opt.querySelector('input[type="radio"]');
+      if (!inp) return;
+      opt.addEventListener('click', function() {
+        group.querySelectorAll('.radio-opt').forEach(function(o) { o.classList.remove('selected'); });
+        opt.classList.add('selected');
+        updateProgress();
+      });
+    });
+  });
+
+  document.querySelectorAll('.rating-row').forEach(function(row) {
+    row.querySelectorAll('.rating-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        row.querySelectorAll('.rating-btn').forEach(function(b) { b.className = 'rating-btn'; });
+        var v = btn.getAttribute('data-val');
+        if (v === 'Excellent') btn.classList.add('sel-excellent');
+        else if (v === 'Good') btn.classList.add('sel-good');
+        else if (v === 'Average') btn.classList.add('sel-average');
+        else btn.classList.add('sel-poor');
+        updateProgress();
+      });
+    });
+  });
+
+  document.querySelectorAll('input[name="s1-ontime"]').forEach(function(r) {
+    r.addEventListener('change', function() {
+      document.getElementById('cond-late').classList.toggle('show', this.value !== 'Yes');
+    });
+  });
+  document.querySelectorAll('input[name="s4-conflict"]').forEach(function(r) {
+    r.addEventListener('change', function() {
+      document.getElementById('cond-conflict').classList.toggle('show', this.value === 'Yes');
+    });
+  });
+  document.querySelectorAll('input[name="s9-difficult"]').forEach(function(r) {
+    r.addEventListener('change', function() {
+      document.getElementById('cond-difficult').classList.toggle('show', this.value === 'Yes');
+    });
+  });
+
+  function updateProgress() {
+    var required = ['s1-ontime','s3-attentive'];
+    var inputs = ['f-date','f-observer','f-trainer','f-region','f-store'];
+    var total = required.length + inputs.length + 2;
+    var filled = 0;
+    required.forEach(function(n) { if (document.querySelector('input[name="'+n+'"]:checked')) filled++; });
+    inputs.forEach(function(id) { var el = document.getElementById(id); if (el && el.value.trim()) filled++; });
+    var rated = document.querySelectorAll('.rating-btn[class*="sel-"]').length;
+    filled += Math.min(2, rated);
+    document.getElementById('progress').style.width = Math.min(100, Math.round((filled/total)*100)) + '%';
+  }
+
+  ['f-date','f-observer','f-trainer','f-region','f-store'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateProgress);
+  });
+
+  function handleFiles(input) {
+    var list = document.getElementById('file-list');
+    list.innerHTML = Array.from(input.files).map(function(f) {
+      return '<div class="file-item">📄 ' + f.name + '</div>';
+    }).join('');
+  }
+
+  function submitForm() {
+    document.getElementById('toast').style.display = 'block';
+    document.getElementById('progress').style.width = '100%';
+    setTimeout(function() { document.getElementById('toast').style.display = 'none'; }, 3500);
+  }
+</script>
+</body>
+</html>
